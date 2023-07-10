@@ -1,0 +1,12 @@
+Payroll
+  Beautify Excel output
+
+Login
+  Registration
+  Reset password
+  Login
+  Logout
+  
+Configuration
+  Properties setup
+  Deduction setup  
