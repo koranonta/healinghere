@@ -9,6 +9,7 @@ class Clients extends Db
 
   function getAll()
   {
+    echo "In getAll";
     $query = "CALL spGetClients(-1)";
     return $this->runQuery($query);
   }
@@ -16,12 +17,12 @@ class Clients extends Db
   function getById( $clientid )
   {
     echo "In getById";
-    $query = "CALL spGetClients( ${clientid} )";
+    $query = "CALL spGetClients( {$clientid} )";
     return $this->runQuery($query);
   }
   
   function getByName ($name) {
-    $query = "CALL spGetClientByName( ${name} )";
+    $query = "CALL spGetClientByName( '{$name}' )";
     echo $query;
     return $this->runQuery($query);
   }

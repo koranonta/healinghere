@@ -547,7 +547,7 @@ BEGIN
         ,PostCode      as postcode
     FROM Clients
    WHERE DateDeleted IS NULL
-     AND (UserName = pName OR EmailAddress = pName);
+     AND (ClientName = pName OR EmailAddress = pName OR UserName = pName);
 END
 $$
 

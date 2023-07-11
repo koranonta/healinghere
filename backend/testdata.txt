@@ -23,6 +23,8 @@ https://healinghere.co.uk/app/clientinfo/backend/api/clients-org.php?id=1
 
 
 
-https://healinghere.co.uk/app/clientinfo/backend/api/clients.php?id=1
 
 https://healinghere.co.uk/app/clientinfo/backend/api/clients.php
+https://healinghere.co.uk/app/clientinfo/backend/api/clients.php?id=1
+
+https://healinghere.co.uk/app/clientinfo/backend/api/clients.php?name=e.smyth62@gmail.com

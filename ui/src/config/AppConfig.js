@@ -1,7 +1,4 @@
-const K_BASE_URL = "https://www.veeranat.com/payroll/backend/"
-//const K_BASE_URL = "https://www.lapassionbkk.com/app/vss/backend/"
-//const K_BASE_URL = "https://ontheeire.org/app/lap-api/"
-//const K_BASE_URL = "http://localhost:5000/"
+const K_BASE_URL = "https://healinghere.co.uk/app/clientinfo/backend/"
 const K_API_URL              = K_BASE_URL + "api"
 const K_IMAGE_DIR            = K_BASE_URL + "assets/images/products/"
 const K_AVATAR_DIR           = K_BASE_URL + "assets/images/avatars/"

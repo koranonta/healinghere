@@ -1,17 +1,10 @@
 import BaseApi from "./BaseApi"
 const api = BaseApi.vssApi
 
-const getEmployees         = ()   =>  api.get(`/employees.php`)     
-const getEmployeeById      = (id) =>  api.get(`/employees.php?id=${id}`) 
-const addEmployee = (formData) => {
-  return api.post("/employees.php", formData,
-    {
-      headers: { 'Content-Type': 'multipart/form-data' },
-      transformRequest: formData => formData,
-    })
-}
-const deleteEmployee           = (id) => api.delete(`/employees.php?id=${id}`)
+const getClients         = ()     =>  api.get(`/clients.php`)     
+const getClientByName    = (name) =>  api.get(`/clients.php?name=${name}`) 
 
+/*
 const getUsers             = ()   =>  api.get(`/users.php`)              
 const getUserById          = (id) =>  api.get(`/users.php?id=${id}`)     
 const addUser = (formData) => {
@@ -38,10 +31,13 @@ const getPayrollTransactionItems = (id)   => api.get(`/payrolltransactionitems.p
 const authenticate               = (body) => api.post(`/authentication.php`, JSON.stringify(body))
 
 const getMembers                 = ()     => api.get(`/members.php`)
+*/
 
 const ApiService = {
-  getEmployees,
-  getEmployeeById,
+  getClients,
+  getClientByName,
+
+/*  
   addEmployee,
   deleteEmployee,
   getUsers,
@@ -59,6 +55,7 @@ const ApiService = {
   getPayrollTransactionItems,
   authenticate,
   getMembers,
+*/  
 }
 
 export default ApiService

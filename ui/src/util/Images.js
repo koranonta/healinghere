@@ -1,4 +1,4 @@
-import logo from '../assets/images/vss-logo.png'
+import logo from '../assets/images/hh-logo.png'
 import home_white from '../assets/images/home_white.png'
 import home from '../assets/images/home.png'
 import product_white from '../assets/images/product_white.png'

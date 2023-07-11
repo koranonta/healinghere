@@ -34,7 +34,7 @@ const Navbar = () => {
           <div className="side_bar">
 	          <div className="side_bar_top">
 	            <div className="profile_pic">
-		            <img src={images.logo} width="100px"/>
+		            <img src={images.logo} width="200px"/>
 		          </div>
 	          </div>
 	          <div className="side_bar_bottom">

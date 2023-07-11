@@ -1,5 +1,5 @@
 <?php
-require_once('../classes/clients.classes-org.php');
+require_once('../classes/clients.classes.php');
 require_once('../classes/response.classes.php');
 include_once('./apiutil.php');
 
@@ -10,7 +10,7 @@ if ($requestMethod == 'GET'):
     $id = getId();
     $name = getParam('name');
     echo $id, $name;
-    if ($id):
+    if (isset($id)):
       echo "In seach by id ${$id}";
       $res = $clients->getById($id);
       $response = array( "data" => $res );
