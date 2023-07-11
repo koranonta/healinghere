@@ -1,0 +1,28 @@
+Emma Smyth
+esmyth62gmailcom
+e.smyth62@gmail.com
+
+Marianne Canty
+marianne.canty
+mlcanty@yahoo.co.uk
+
+
+Michelle Johnson
+michelle.johnson
+Michellejohnsonalicante@gmail.com
+
+
+CALL spGetClientByName ('Emma Smyth');
+
+
+https://healinghere.co.uk/app/clientinfo/backend/api/clients-org.php?id=1
+
+https://healinghere.co.uk/app/clientinfo/backend/api/clients-org.php
+
+https://healinghere.co.uk/app/clientinfo/backend/api/clients-org.php?id=1
+
+
+
+https://healinghere.co.uk/app/clientinfo/backend/api/clients.php?id=1
+
+https://healinghere.co.uk/app/clientinfo/backend/api/clients.php

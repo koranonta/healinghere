@@ -1,1 +1,10 @@
-https://healinghere.co.uk/app/clientfo
+https://healinghere.co.uk/app/clientinfo
+
+https://healinghere.co.uk/app/clientinfo/backend/api/clients.php
+
+
+
+https://healinghere.co.uk/app/clientinfo/backend/api/clients-org.php
+
+
+https://healinghere.co.uk/app/clientinfo/backend/api/clients.php

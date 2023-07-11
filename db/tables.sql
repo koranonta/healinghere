@@ -59,8 +59,8 @@ CREATE TABLE HealthInfos (
 CREATE TABLE SessionInfos (
   SessionId       INT           NOT NULL AUTO_INCREMENT,
   ClientId        INT           NOT NULL,
-  Date            DATETIME      NOT NULL,
-  Issue           VARCHAR(255) DEFAULT NULL,
+  SessionDate     DATETIME      NOT NULL,
+  Issue           VARCHAR(255)  DEFAULT NULL,
   Response        TEXT          DEFAULT NULL,
   DateCreated     DATETIME      NOT NULL,
   DateModified    DATETIME      NOT NULL,
