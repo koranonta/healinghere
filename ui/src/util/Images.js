@@ -25,9 +25,11 @@ import editPhoto from '../assets/images/edit_photo.png'
 import spinner from '../assets/images/loading-buffering.gif'
 
 import no_user_image from '../assets/images/no-user-image.jpg'
+import chakars from '../assets/images/chakras.png'
 
 export const images = {
   logo,
+  chakars,
   addIcon,
   editIcon,
   deleteIcon,

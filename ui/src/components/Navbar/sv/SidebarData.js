@@ -18,5 +18,5 @@ export const sideBarData = [
     path: '/consultation',
     icon: images.user_white,
     activeIcon: images.user,    
-  },  
+  },
 ];
