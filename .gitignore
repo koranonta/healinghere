@@ -1,5 +1,8 @@
 *.text
-/*/node_modules/*
-payroll/toDeploy/*
+*.zip
+*.sql
+*.xlsx
+*.png
+ui/node_modules/*
 sv/*
 
