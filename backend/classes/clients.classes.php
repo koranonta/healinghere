@@ -9,21 +9,13 @@ class Clients extends Db
 
   function getAll()
   {
-    echo "In getAll";
     $query = "CALL spGetClients(-1)";
     return $this->runQuery($query);
   }
 
   function getById( $clientid )
   {
-    echo "In getById";
-    $query = "CALL spGetClients( {$clientid} )";
-    return $this->runQuery($query);
-  }
-  
-  function getByName ($name) {
-    $query = "CALL spGetClientByName( '{$name}' )";
-    echo $query;
+    $query = "CALL spGetClients( ${clientid} )";
     return $this->runQuery($query);
   }
 
@@ -48,10 +40,10 @@ class Clients extends Db
       $stmt->execute();
       $stmt->closeCursor();
       $row = $this->pdo->query("SELECT @newId as newId")->fetch(PDO::FETCH_ASSOC);
-	    if (isset($row['newId'])):
-	      return $this->getById($row['newId']);
-	    endif;
-	    return array();
+      if (isset($row['newId'])):
+        return $this->getById($row['newId']);
+      endif;
+      return array();
     } catch (Exception $e) {
       echo $e->getMessage();
       return array();

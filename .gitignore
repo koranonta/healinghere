@@ -1,8 +1,15 @@
 *.text
+*.txt
 *.zip
 *.sql
 *.xlsx
 *.png
 ui/node_modules/*
 sv/*
+deploy/*
+data/*
+doctor/*
+ui/dist/*
+ui/*.7z
+
 

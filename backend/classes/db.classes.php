@@ -2,9 +2,9 @@
 class Db
 {  
   private $host     = "localhost";
-  private $user     = "healinghere_co_ukhh_extension_db";
-  private $password = "pnpp65";
-  private $dbName   = "healinghere_co_ukhh_extension_db";
+  private $user     = "lapatprc_hhkora";
+  private $password = "pnpp65knn";
+  private $dbName   = "lapatprc_hhdb";
 
   protected $pdo;
 

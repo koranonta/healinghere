@@ -39,39 +39,27 @@ CREATE TABLE PropertyTypes (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE Clients (
-  ClientId     INT          NOT NULL AUTO_INCREMENT,
-  ClientName   VARCHAR(255) NOT NULL,
-  UserName     VARCHAR(100) NOT NULL,
-  EmailAddress VARCHAR(100) NOT NULL,
-  LastActive   DateTime     NOT NULL,
-  SignUp       DateTime     NOT NULL,
-  DateCreated  DATETIME      NOT NULL,
-  DateModified DATETIME      NOT NULL,
-  DateDeleted  DATETIME      DEFAULT NULL,
-  CreatedBy    INT           NOT NULL DEFAULT -1,
-  ModifiedBy   INT           NOT NULL DEFAULT -1,
-  DeletedBy    INT           DEFAULT NULL,
-  PRIMARY KEY (ClientId)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-CREATE TABLE Addresses (
-  AddressId    INT          NOT NULL AUTO_INCREMENT,
-  ClientId     INT          NOT NULL,
-  Street1      VARCHAR(100) NOT NULL,
-  Street2      VARCHAR(100) NOT NULL,
-  Country      VARCHAR(100) DEFAULT NULL,
-  City         VARCHAR(100) DEFAULT NULL,
-  Region       VARCHAR(100) DEFAULT NULL,
-  PostCode     VARCHAR(10)  DEFAULT NULL,
-  DateCreated  DATETIME     NOT NULL,
-  DateModified DATETIME     NOT NULL,
-  DateDeleted  DATETIME     DEFAULT NULL,
-  CreatedBy    INT          NOT NULL DEFAULT -1,
-  ModifiedBy   INT          NOT NULL DEFAULT -1,
-  DeletedBy    INT          DEFAULT NULL,
-  PRIMARY KEY (AddressId),
-  FOREIGN KEY (ClientId) REFERENCES Clients(ClientId)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  ClientId int NOT NULL,
+  ClientName varchar(255) NOT NULL,
+  UserName varchar(100) NOT NULL,
+  EmailAddress varchar(100) NOT NULL,
+  LastActive datetime NOT NULL,
+  SignUp datetime NOT NULL,
+  Orders float NOT NULL DEFAULT 0,
+  TotalSpend float NOT NULL DEFAULT 0,
+  AOV float NOT NULL DEFAULT 0,
+  Country varchar(100) DEFAULT NULL,
+  City varchar(100) DEFAULT NULL,
+  Region varchar(100) DEFAULT NULL,
+  PostCode varchar(10) DEFAULT NULL,
+  DateCreated datetime NOT NULL,
+  DateModified datetime NOT NULL,
+  DateDeleted datetime DEFAULT NULL,
+  CreatedBy int(11) NOT NULL DEFAULT -1,
+  ModifiedBy int(11) NOT NULL DEFAULT -1,
+  DeletedBy int(11) DEFAULT NULL,
+  PRIMARY KEY (ClientId),
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE HealthInfos (
   HealthInfoId    INT NOT NULL AUTO_INCREMENT,
@@ -131,5 +119,6 @@ CREATE TABLE SessionProperties (
   DeletedBy         INT      DEFAULT NULL,
   PRIMARY KEY (SessionPropertyId),
   FOREIGN KEY (SessionId) REFERENCES Sessions(SessionId)
+  FOREIGN KEY (PropertyTypeId) REFERENCES PropertyTypes(PropertyTypeId)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

@@ -16,7 +16,7 @@ import './assets/fonts/Hero.otf'
 function App() {
   const { login } = useContext(AppContext)
   return (
-      <BrowserRouter>
+    <BrowserRouter basename="/app/clientinfo/ui">
       <div className="wrapper">
         <Navbar />
         <div className="main_container">

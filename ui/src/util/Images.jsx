@@ -25,7 +25,14 @@ import editPhoto from '../assets/images/edit_photo.png'
 import spinner from '../assets/images/loading-buffering.gif'
 
 import no_user_image from '../assets/images/no-user-image.jpg'
+import medical from '../assets/images/medical.svg'
+import medical_white from '../assets/images/medical_white.svg'
+
+import consultation from '../assets/images/consultation.svg'
+import consultation_white from '../assets/images/consultation_white.svg'
+
 import chakars from '../assets/images/chakras.png'
+import chakars01 from '../assets/images/chakras03.png'
 
 export const images = {
   logo,
@@ -52,4 +59,9 @@ export const images = {
   editPhoto,
   spinner,
   no_user_image,
+  medical,
+  medical_white,
+  consultation,
+  consultation_white,
+  chakars01,
 }

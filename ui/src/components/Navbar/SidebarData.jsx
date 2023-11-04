@@ -10,13 +10,13 @@ export const sideBarData = [
   {
     title: 'information',
     path: '/information',
-    icon: images.user_white,
-    activeIcon: images.user,    
+    icon: images.medical_white,
+    activeIcon: images.medical,    
   },
   {
     title: 'consultation',
     path: '/consultation',
-    icon: images.user_white,
-    activeIcon: images.user,    
+    icon: images.consultation_white,
+    activeIcon: images.consultation,    
   },  
 ];

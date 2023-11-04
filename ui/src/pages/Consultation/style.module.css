@@ -81,7 +81,7 @@ input[type=submit]:hover {
   text-align: center; 
   box-sizing: border-box; 
   height: 100%; 
-  width: 320px;
+  width: 420px;
   padding: 10px; 
   border: 1px solid blue; 
 }
@@ -95,6 +95,7 @@ input[type=submit]:hover {
   height: 100%; 
   padding: 10px; 
   border: 1px solid red; 
+  width: 100%;
 }
 
 
@@ -106,3 +107,56 @@ input[type=submit]:hover {
     margin-top: 0;
   }
 }
+
+.topLeftMenuTab {
+  display: grid;
+  place-items: center;
+  grid-auto-flow: column;
+}
+
+.topnavbarTab {
+  height: 2em;
+  width: 100%;
+  background: #202020;
+  display: grid;
+  place-items: center;
+  grid-auto-flow: column;
+  grid-template-columns: 1fr auto;
+  color: white;
+  cursor: move;
+}
+
+.windowsTab {
+    border: 2px solid rgba(255, 255, 255, 0.37);
+    min-height: 250px;
+    height: 150px;
+    backdrop-filter: blur(2em);
+    min-width: 200px;
+    width: 250px;
+    position: absolute;
+    /*display: none;  */
+    border-radius: 0.5em;
+    top: 750px;
+    right: 20px;
+    resize: both;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.2)
+}
+
+.toolTab {
+    border: 2px solid rgba(255, 255, 255, 0.37);
+    min-height: 100px;
+    height: 140px;
+    backdrop-filter: blur(2em);
+    min-width: 20px;
+    width: 65px;
+    position: absolute;
+    /*display: none;  */
+    /* border-radius: 0.5em;  */
+    top: 70px;
+    left: 30px;
+    /*resize: both; */
+    overflow: none;
+    background-color: rgba(0, 0, 0, 0.2)
+}
+

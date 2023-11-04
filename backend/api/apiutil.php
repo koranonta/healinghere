@@ -8,7 +8,6 @@ else:
     header("Access-Control-Allow-Origin: *");
 endif;
 
-//header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Credentials: true");
 header("Access-Control-Max-Age: 600");    // cache for 10 minutes
 
@@ -55,4 +54,17 @@ function getRoute() {
     endif;
   endif;
   return $routeInfo;
+}
+
+function getPathParam() {
+  $scriptFileName = $_SERVER["SCRIPT_FILENAME"];
+  $documentRoot = $_SERVER["DOCUMENT_ROOT"];
+  $prefix = str_replace($documentRoot, "", $scriptFileName);
+  $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+  $str2 = str_replace($prefix, "", $path);
+  $parts = explode("/", $str2 );
+  if (strlen($parts[0]) == 0):
+    $temp = array_shift($parts);
+  endif;
+  return $parts;
 }
