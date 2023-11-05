@@ -17,6 +17,7 @@
     "exceljs": "^4.3.0",
     "file-saver": "^2.0.5",
     "lodash": "^4.17.21",
+    "mic-recorder-to-mp3": "github:NikolaBalaban/mic-recorder-to-mp3",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-canvas-draw": "^1.2.1",
@@ -25,9 +26,7 @@
     "react-draggable": "^4.4.5",
     "react-grid-system": "^8.1.9",
     "react-icons": "^4.9.0",
-    "react-router-dom": "^6.9.0",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "react-router-dom": "^6.9.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

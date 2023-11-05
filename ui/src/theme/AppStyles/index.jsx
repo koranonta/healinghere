@@ -64,6 +64,16 @@ const AppStyles = makeStyles((theme) => ({
     borderRadius: '16px',
   },
 
+  pillButtonGreen: {
+    backgroundColor: colors.green,
+    border: 'none',
+    color: colors.white,
+    padding: '5px 5px',
+    textAlign: 'center',
+    margin: '4px 2px',
+    cursor: 'pointer',
+    borderRadius: '16px',
+  },
 
   underLine: {
     borderBottom: '1px solid black',

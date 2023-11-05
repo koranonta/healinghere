@@ -5,6 +5,7 @@ export const colors = {
   paleBrown: '#c4ae9d',
   blue: '#4F63AC',
   white: '#FFFFFF',
+  green: '#33cc33',
   greenText: '#8ca885',
   palePink: '#e8dfd8',
 }

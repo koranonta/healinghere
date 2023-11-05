@@ -5,37 +5,36 @@ import { IconButton } from '@material-ui/core';
 import _ from 'lodash';
 import usePagination from '../../hooks/usePagination';
 import Pagination from '../../components/Pagination';
-//import EmployeeDlg from './EmployeeDlg';
 import Util from '../../util/Util'
 //import ApiService from '../../services/ApiService'
 //import AppConfig from '../../config/AppConfig';
 import AppStyles from '../../theme/AppStyles';
 import { commonStyles } from '../../theme/CommonStyles';
 import { images } from '../../util/Images';
-//import EmployeeFilterAndSearch from '../../components/EmployeeFilterAndSearch';
 import { AppContext } from '../../context/AppContext';
+import Popup from '../../components/Popup'
+import Consultation from '../Consultation'; 
 
 const columns = [
-  { label: 'Id',          sortKey: 'clientid',     align: 'left', width: '5%' },
-  { label: 'Name',        sortKey: 'clientname',   align: 'left', width: '15%' },
-//  { label: 'User name',   sortKey: 'username',     align: 'left', width:'15%' },
-  { label: 'Email',       sortKey: 'emailaddress', width:'15%' },
-//  { label: 'Last active', sortKey: 'lastactive',   width:'8%' },
-//  { label: 'Signup',      sortKey: 'signup',       width:'8%' },
-  { label: 'City',        sortKey: 'city',         width:'10%' },
-  { label: 'Region',      sortKey: 'region',       align: 'right', width:'10%' },
-  { label: 'Post code',   sortKey: 'postcode',     align: 'center', width:'5%' },  
-  { label: 'Action',      sortKey: '',             align: 'center', width:'10%' },
+  { label: 'Session date',  sortKey: 'sessiondate',     align: 'left', width: '15%' },
+  { label: 'Issues',        sortKey: 'issue',     align: 'left', width: '30%' },
+  { label: 'Response',      sortKey: 'response',  align: 'left', width: '40%' },
+  { label: 'Action',        sortKey: '',             align: 'center', width:'10%' },
 ];
 
-const ClientList = ({ data, itemsPerPage, setItemsPerPage, startFrom }) => {
+const SessionList = ({ data, client, itemsPerPage, setItemsPerPage, startFrom }) => {
   const [sortByKey, setSortByKey] = useState('id')
   const [order, setOrder] = useState('asc')
-  const [openDlg, setOpenDlg] = useState(false)
-  const [selItem, setSelItem] = useState()
+  const [open, setOpen] = useState(false)
+  const [dlgTitle, setDlgTitle] = useState()
+  const [selSession, setSelSession] = useState()
   const [searchText, setSearchText] = useState("")  
 
   const { login } = useContext(AppContext)
+
+  useEffect(() => {
+    console.log(client)
+  }, [])
 
   const { 
     slicedData, 
@@ -51,9 +50,6 @@ const ClientList = ({ data, itemsPerPage, setItemsPerPage, startFrom }) => {
     const classes = AppStyles()
 
     const navigate = useNavigate();
-
-    useEffect(()=> {
-    },[data])
 
     useEffect(() => {
       const copyOfFilteredData = [...filteredData];
@@ -73,42 +69,42 @@ const ClientList = ({ data, itemsPerPage, setItemsPerPage, startFrom }) => {
       setFilteredData(filtered);
     }    
 
-    const openPopup = (item, mode) => {
-      setSelItem(item)
-      setOpenDlg(true)
-    }
-
     const onSearch = (e, searchText) => {
       e.preventDefault()
+      console.log("In onSearch")
       const copiedData = [...data];
       const filteredList = copiedData.filter( elem => {
-        let name = elem.clientname
-        return (elem.clientname.toLowerCase().indexOf(searchText.toLowerCase()) > -1 || 
-                elem.emailaddress.toLowerCase().indexOf(searchText.toLowerCase()) > -1)
+        return (elem.issue.toLowerCase().indexOf(searchText.toLowerCase()) > -1 || 
+                elem.response.toLowerCase().indexOf(searchText.toLowerCase()) > -1)
           ? elem : null
       })
       setFilteredData(filteredList)
       setCurrentPage(1)
     }
 
-    const goToConsultation = (client) => {
-      console.log(client)
-      navigate("/session/", {
-        state: {
-          client
-        }
-      });
+    const openSessionDlg = (mode, session) => {
+      if (mode === 'edit') setDlgTitle(`Edit session [ ${client.clientname} ]`)
+      else if (mode === 'add') setDlgTitle(`New session [ ${client.clientname} ]`)
+      else if (mode === 'delete') setDlgTitle(`Delete session [ ${client.clientname} ]`)
+      setSelSession(session)
+      console.log(session)
+      setOpen(true)
     }
+
 
     return(      
       <>
         <div className="row">
           <div className="col-md-2">
-            <h1 className={classes.title}>Clients</h1>
+            <h1 className={classes.title}>Sessions</h1>
+            <span style={{...commonStyles.tableRow, padding: 2, marginLeft: 50}}>Name :</span>
+            <span style={{...commonStyles.tableRow, border: '1px solid green', padding: 2, marginRight: 30, marginLeft: 5}}>{client.clientname}</span>
+            <span style={{...commonStyles.tableRow, padding: 2}}>Email :</span>
+            <span style={{...commonStyles.tableRow, border: '1px solid green', padding: 2, marginLeft: 5}}>{client.emailaddress}</span>
           </div>
-    
-          <div className="col-md-3 mb-3">
-            <form className="mt-3 mb-3 is-flex" style={{justifyContent: 'center', verticalAlign: 'middle'}}>
+
+          <form className="col-md-3 mb-3">
+            <div className="mt-3 mb-3 is-flex" style={{justifyContent: 'center', verticalAlign: 'middle'}}>
               <div className={`${classes.filterLabel}`} style={{marginLeft: '20%'}}>Search :</div>
                 <div className={`ml-2`}>
                   <input type="text" 
@@ -118,15 +114,16 @@ const ClientList = ({ data, itemsPerPage, setItemsPerPage, startFrom }) => {
                          name="search"
                          id="search"/>
                 </div> 
-
                 <button onClick={e => onSearch(e, searchText)} 
                   className={`ml-3 ${classes.pillButton}`} style={{width: '60px'}}>Go</button> 
                 <button onClick={e => { setSearchText(""); onSearch(e, "") }}
-                  className={`${classes.pillButton}`} style={{width: '60px'}}>Clear</button>               
-            </form>
-          </div>  
+                  className={`${classes.pillButton}`} style={{width: '60px'}}>Clear</button>
+                <button onClick={e => { e.preventDefault(); openSessionDlg('add', {}) }}
+                  className={`${classes.pillButtonGreen}`} style={{marginLeft: 150, width: '60px'}}><FaIcons.FaPlusCircle title="New Session"/>
+                  {" "} New</button>
+            </div>
+          </form>  
         </div>
-
 
       {slicedData.length > 0 ? <>
         <div className="row">
@@ -161,17 +158,14 @@ const ClientList = ({ data, itemsPerPage, setItemsPerPage, startFrom }) => {
             <tbody>
               {slicedData.map((item, index) => (
                 <tr key={index} style={{ paddingBottom: '1rem'}}>
-                  <td style={{...commonStyles.tableRow, textAlign: 'left', width: '5%'}}>{Util.zeroPad(item.clientid, 3)}</td>
-                  <td style={{...commonStyles.tableRow, width: '15%'}}>{item.clientname}</td>
-                  <td style={{...commonStyles.tableRow, width: '15%'}}>{item.emailaddress}</td>
-                  <td style={{...commonStyles.tableRow}}>{item.city}</td>
-                  <td style={{...commonStyles.tableRow}}>{item.region}</td>
-                  <td style={{...commonStyles.tableRow}}>{item.postcode}</td>
+                  <td style={{...commonStyles.tableRow, textAlign: 'left', width: '15%'}}>{Util.toDMY(item.sessiondate)}</td>
+                  <td style={{...commonStyles.tableRow, width: '30%'}}>{Util.truncateText(item.issue, 40)}</td>
+                  <td style={{...commonStyles.tableRow, width: '40%'}}>{Util.truncateText(item.response, 50)}</td>
                   <td style={{...commonStyles.tableRow, whiteSpace: 'nowrap'}}>
-                    <IconButton onClick={() =>goToConsultation(item)}>
+                    <IconButton onClick={() =>openSessionDlg('edit', item)}>
                       <img src={images.editIcon} width="30px" alt={item.title}/>
                     </IconButton>
-                    <IconButton onClick={() =>openPopup(item, 'delete')}>
+                    <IconButton onClick={() =>openSessionDlg('delete', item)}>
                       <img src={images.deleteIcon} width="30px" alt={item.title}/>
                     </IconButton>
                   </td>
@@ -203,44 +197,21 @@ const ClientList = ({ data, itemsPerPage, setItemsPerPage, startFrom }) => {
         </div>
       }
 
+
+      <Popup title={dlgTitle}
+        open={open}
+        setOpen={setOpen}
+        showCloseIcon={true}
+        >
+          <Consultation 
+            session={selSession} 
+            setOpen={setOpen} />
+      </Popup> 
+
       
      </>
     );    
 }
 
-export default ClientList
+export default SessionList
        
-/*
-
-       <EmployeeDlg 
-         item={selItem}
-         employeeTypes={employeeTypes}
-         genderTypes={genderTypes}
-         mode={mode}
-         width={'500px'}
-         open={openDlg}
-         setOpen={setOpenDlg}
-         actionHandler={employeeHandler}
-       />   
-
-                <tr key={index} style={{ paddingBottom: '1rem'}}>
-                  <td style={{...commonStyles.tableRow, textAlign: 'left', width: '5%'}}>{Util.zeroPad(item.clientid, 3)}</td>
-                  <td style={{...commonStyles.tableRow, width: '15%'}}>{item.clientname}</td>
-                  <td style={{...commonStyles.tableRow, width: '15%'}}>{item.userame}</td>
-                  <td style={{...commonStyles.tableRow, width: '15%'}}>{item.emailaddress}</td>
-                  <td style={{...commonStyles.tableRow}}>{item.lastactive === "0000-00-00" ? "" : Util.toDMY(item.lastactive)}</td>
-                  <td style={{...commonStyles.tableRow}}>{item.signup     === "0000-00-00" ? "" : Util.toDMY(item.signup)}</td>
-                  <td style={{...commonStyles.tableRow}}>{item.city}</td>
-                  <td style={{...commonStyles.tableRow}}>{item.region}</td>
-                  <td style={{...commonStyles.tableRow}}>{item.postcode}</td>
-                  <td style={{...commonStyles.tableRow, whiteSpace: 'nowrap'}}>
-                    <IconButton onClick={() =>openPopup(item, 'edit')}>
-                      <img src={images.editIcon} width="30px" alt={item.title}/>
-                    </IconButton>
-                    <IconButton onClick={() =>openPopup(item, 'delete')}>
-                      <img src={images.deleteIcon} width="30px" alt={item.title}/>
-                    </IconButton>
-                  </td>
-                </tr>
-
-*/

@@ -1,21 +1,11 @@
 import React, { useState, useRef } from 'react';
 import CanvasDraw from "react-canvas-draw";
-import * as FaIcons from 'react-icons/fa';
-import { IconButton } from '@material-ui/core';
 import _ from 'lodash';
-import usePagination from '../../hooks/usePagination';
-import Pagination from '../../components/Pagination';
-//import EmployeeDlg from './EmployeeDlg';
-import Util from '../../util/Util'
-//import ApiService from '../../services/ApiService'
-//import AppConfig from '../../config/AppConfig';
 import AppStyles from '../../theme/AppStyles';
-import { commonStyles } from '../../theme/CommonStyles';
 import { images } from '../../util/Images';
-//import EmployeeFilterAndSearch from '../../components/EmployeeFilterAndSearch';
-import { AppContext } from '../../context/AppContext';
-
 import styles from './style.module.css'; 
+import OutlinedDiv from '../../components/controls/OutlinedDiv'
+import VoiceRecorder from '../../components/VoiceRecorder';
 
 const canvasProperties = {
   loadTimeOffset: 5,
@@ -23,8 +13,8 @@ const canvasProperties = {
   //catenaryColor: "#0a0302",
   gridColor: "rgba(150,150,150,0.17)",
   hideGrid: true,
-  canvasWidth: 400,
-  canvasHeight: 800,
+  canvasWidth: 330,
+  canvasHeight: 610,
   disabled: false,
   saveData: "",
   immediateLoading: false,
@@ -32,27 +22,20 @@ const canvasProperties = {
   imgSrc: images.chakars01,
 };      
 
-const Consult = () => {
-  const [sortByKey, setSortByKey] = useState('id')
-  const [order, setOrder] = useState('asc')
-  const [openDlg, setOpenDlg] = useState(false)
-  const [selItem, setSelItem] = useState()
-  const [searchText, setSearchText] = useState("")  
+const Consult = ({session, setOpen}) => {
   const [brushSize, setBrushSize] = useState(5);
   const [brushColor, setBrushColor] = useState("#0a0302");  
   const [showColor, setShowColor] = useState(false)
   const [buf, setBuf] = useState({
-    sessionDate: ""
-   ,issue: ""
-   ,response:""
+    sessionDate: session?.sessiondate ? session?.sessiondate : ""
+   ,issue: session?.issue ? session?.issue : ""
+   ,response: session?.response ? session?.response : ""
   })
 
   const canvasRef = useRef()
-    
+
   const props = {
     ...canvasProperties,
-    //className: classNames("canvas"),
-    //onChange: handleCanvasChange,
     ref: canvasRef,
     brushColor,
     catenaryColor: brushColor,
@@ -61,18 +44,6 @@ const Consult = () => {
 
   const classes = AppStyles()
 
-  const changeBrushSize = () => {
-    console.log("In changeBrushSize")
-    return (<input
-    min="2"
-    max="50"
-    type="range"
-    onChange={(event) => {
-      console.log(event.target.value);
-      setThick(event.target.value);
-    }}
-  />)
-  }
 
   const drawImageMenu = () => (
     <div style={{display: 'flex', direction: 'row', justifyContent: 'space-between', width: 300, marginBottom: 10 }}>  
@@ -108,17 +79,13 @@ const Consult = () => {
       console.log(event.target.value);
       setBrushSize(event.target.value);
     }}
-  
-  />
-          )}
-
-
-
-
-
+    />
+   )}
+{/*
     <button onClick={() => {
        console.log(canvasRef.current.getDataURL());
        alert("DataURL written to console") }} >GetDataURL</button>
+*/}       
     </div>
   )
 
@@ -136,14 +103,25 @@ const Consult = () => {
       setBuf(temp)
     }
 
+    const handleOk = (e) => {
+      e.preventDefault()
+      setOpen(false)
+    }
+
+    const handleCancel = (e) => {
+      e.preventDefault()
+      setOpen(false)
+    }
+
     return(      
       <>
+{/*
         <div className={styles.row}>
           <div className="col-md-2">
             <h1 className={classes.title}>Consultation</h1>
           </div>
         </div>
-
+*/}
         <div className={styles.grid}>
            <div className={styles.item}>
              <div className={styles.imageContent}>
@@ -169,7 +147,6 @@ const Consult = () => {
                            style={{width: '50%'}}
                            placeholder="dd-mm-yyyy"
                            value={_.isEmpty(buf) ? "" : buf.sessionDate }
-                           autoCapitalize={false} 
                            onChange={handleChange} 
                            required                      
                            name="sessionDate"
@@ -208,8 +185,22 @@ const Consult = () => {
             </textarea>
           </div>
         </div>
+
+        <br/>
+        <OutlinedDiv label="Recorder" width={"500px"}> 
+        <VoiceRecorder />
+
+        </OutlinedDiv>
+
+
+
         <div className={styles.row}>
-          <input type="submit" value="Submit" />
+           <button onClick={e => handleOk(e)} 
+                  className={`ml-3 ${classes.pillButton}`} style={{width: '60px'}}>OK</button> 
+                <button onClick={e => { handleCancel(e) }}
+                  className={`${classes.pillButton}`} style={{width: '60px'}}>Cancel</button>
+
+
         </div>
       </form>
 
@@ -226,6 +217,7 @@ const Consult = () => {
 export default Consult
        
 /*
+          <VoiceRecorder />
 
 //  <div className={styles.row}>      
       const getToolBar = () => (
@@ -275,6 +267,19 @@ export default Consult
   />
           )}
         </div>
+
+          const changeBrushSize = () => {
+    console.log("In changeBrushSize")
+    return (<input
+    min="2"
+    max="50"
+    type="range"
+    onChange={(event) => {
+      console.log(event.target.value);
+      setThick(event.target.value);
+    }}
+  />)
+  }
 
 
 */      

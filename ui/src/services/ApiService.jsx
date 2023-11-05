@@ -1,8 +1,9 @@
 import BaseApi from "./BaseApi"
 const api = BaseApi.vssApi
 
-const getClients         = ()     =>  api.get(`/clients.php`)     
-const getClientByName    = (name) =>  api.get(`/clients.php?name=${name}`) 
+const getClients           = ()     =>  api.get(`/clients.php`)     
+const getClientByName      = (name) =>  api.get(`/clients.php?name=${name}`) 
+const getSessionByClientId = (clientid) => api.get(`/sessionsbyclientid.php/${clientid}`)
 
 /*
 const getUsers             = ()   =>  api.get(`/users.php`)              
@@ -36,6 +37,7 @@ const getMembers                 = ()     => api.get(`/members.php`)
 const ApiService = {
   getClients,
   getClientByName,
+  getSessionByClientId,
 
 /*  
   addEmployee,

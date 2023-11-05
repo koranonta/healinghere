@@ -12,6 +12,7 @@ import { AppContext } from './context/AppContext';
 import './assets/fonts/DIN_Alternate_Bold.ttf'
 import './assets/fonts/Hero_Light.otf'
 import './assets/fonts/Hero.otf'
+import Session from './pages/Session';
 
 function App() {
   const { login } = useContext(AppContext)
@@ -24,6 +25,7 @@ function App() {
             <Route path='/' exact       element={ <Clients /> } />
             <Route path='/information'  element={<Information/>} />
             <Route path='/consultation' element={<Consultation/>} />
+            <Route path='/session' element={<Session/>} />
           </Routes>
         </div>
       </div>

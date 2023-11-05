@@ -134,6 +134,9 @@ const hasImage = (image) => {
 
 const toDMY = (date) => moment(date,"YYYY-MM-DD").format("DD-MM-YYYY")
 
+const truncateText = (str, length) => 
+  str.length <= length ? str : str.substr(0, length) + " . . ."
+
 const Util = {
   sortData,
   formatNumber,
@@ -157,6 +160,7 @@ const Util = {
   propertiesToThaiOptionSelector,
   hasImage,
   toDMY,
+  truncateText,
 }
 
 export default Util
