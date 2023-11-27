@@ -38,6 +38,32 @@ const Pagination = ({
 
   return (
     <nav className="pagination">
+    <ul className='pagination-list'>
+      {getPaginationButtons()}
+      <li key="1000">
+        <div style={{ display: 'flex' }}>
+          <div className='ml-5 mr-5 d-flex align-items-center'>
+            <small>Page</small>
+          </div>
+          <select id="pageSize" name="pageSize" value={itemsPerPage} onChange={(e) => setItemsPerPage(+e.target.value)}>
+            {pageSizeOptions.map((data, index) => (
+              <option key={index} value={data}>{data}</option>
+            ))}
+          </select>
+        </div>
+      </li>
+    </ul>
+  </nav>
+  )
+}
+
+export default Pagination
+
+
+/*
+
+
+    <nav className="pagination">
     <ul className="pagination-list">
 
       { getPaginationButtons() }
@@ -54,14 +80,6 @@ const Pagination = ({
       </li>
     </ul>
   </nav>
-  )
-}
-
-export default Pagination
-
-
-/*
-
 
   const getPaginationButtons = () => {
     const list = pagination.map((page, index) => {

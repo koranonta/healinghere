@@ -34,11 +34,11 @@ const AppStyles = makeStyles((theme) => ({
   },
 
   inputText: {
-    height: '30px',
-    border: 'none',
-    borderRadius: '0',
+    // height: '30px',
+    // border: 'none',
+    // borderRadius: '0',
     fontFamily: 'hero',
-    borderBottom: '1px solid black',
+    // borderBottom: '1px solid black',
     backgroundColor: colors.yellowBackground, 
   },
 
@@ -66,11 +66,11 @@ const AppStyles = makeStyles((theme) => ({
 
   pillButtonGreen: {
     backgroundColor: colors.green,
-    border: 'none',
-    color: colors.white,
-    padding: '5px 5px',
-    textAlign: 'center',
-    margin: '4px 2px',
+    // border: 'none',
+    // color: colors.white,
+    // padding: '5px 5px',
+    // textAlign: 'center',
+    // margin: '4px 2px',
     cursor: 'pointer',
     borderRadius: '16px',
   },
@@ -205,7 +205,11 @@ const AppStyles = makeStyles((theme) => ({
 
   themeBackground: {
     backgroundColor: colors.yellowBackground, 
-  }
+  },
+
+  toolSelection: {
+    cursor: 'pointer',
+  },
 
 
 }));

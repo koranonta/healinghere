@@ -1,3 +1,4 @@
+/*
 import React, {useState, useEffect} from 'react';
 import MicRecorder from 'mic-recorder-to-mp3';
 
@@ -58,9 +59,9 @@ const VoiceRecorder = () => {
 }
 
 export default VoiceRecorder;
+*/
 
-
-/*
+import React, {useState, useEffect} from 'react';
 
 const VoiceRecorder = () =>{
   const [isPlaying, setIsPlaying] = React.useState(false);
@@ -175,4 +176,5 @@ const VoiceRecorder = () =>{
   );
 }
 
-*/
+export default VoiceRecorder
+

@@ -39,6 +39,46 @@ const Popup = (props) => {
   startPos = initialPos
   
   return (
+    <Dialog open={open} maxWidth="md" PaperComponent={PaperComponent} >
+      <DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
+        <div className='row'>
+          <div className="col-6 d-flex justify-content-start">
+            <Typography variant="h6" component="div">
+              {title}
+            </Typography>
+          </div>
+          <div className="col-6 d-flex justify-content-end">{showCloseIcon &&
+            <Controls.ActionButton
+              onClick={() => setOpen(false)}>
+              <CloseIcon />
+            </Controls.ActionButton>
+          }</div>
+        </div>
+        {/* <div style={{ display: 'flex' }}>
+          <Typography variant="h6" component="div" style={{ flexGrow: 1 }}>
+            {title}
+          </Typography>
+          {showCloseIcon &&
+            <Controls.ActionButton
+              onClick={() => setOpen(false)}>
+              <CloseIcon />
+            </Controls.ActionButton>
+          }
+        </div> */}
+      </DialogTitle>
+      <DialogContent>
+        {children}
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+export default Popup
+
+
+/*
+
+  return (
       <Dialog open={open}  maxWidth="md" PaperComponent={PaperComponent} >
         <DialogTitle 
           style={{ cursor: "move", width:`${width}` }} 
@@ -48,7 +88,7 @@ const Popup = (props) => {
               {title}
             </Typography>
             {showCloseIcon &&
-            <Controls.ActionButton
+            <Controls.ActionButton              
               onClick={() => setOpen(false)}>
               <CloseIcon />
             </Controls.ActionButton>
@@ -60,6 +100,6 @@ const Popup = (props) => {
         </DialogContent>
       </Dialog>
   );
-}
 
-export default Popup
+
+*/

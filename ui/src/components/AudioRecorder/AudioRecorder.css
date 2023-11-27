@@ -1,0 +1,36 @@
+.grid-audio {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-items: stretch;
+  align-items: stretch;
+  column-gap: 10px;
+  row-gap: 10px;
+}
+
+.grid-content-audio {
+  color: #242424;
+  font-weight: 600;
+  text-align: center;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+.grid-content-audio button {
+  width: 100%;
+}
+
+audio {
+  width: 50%;
+}
+
+@media screen and (max-width: 1024px) {
+  .grid-audio {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 426px) {
+  audio {
+    width: 100%;
+  }
+}

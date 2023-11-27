@@ -35,7 +35,7 @@ const ClientList = ({ data, itemsPerPage, setItemsPerPage, startFrom }) => {
   const [selItem, setSelItem] = useState()
   const [searchText, setSearchText] = useState("")  
 
-  const { login } = useContext(AppContext)
+  const { selMenu, setSelMenu } = useContext(AppContext)
 
   const { 
     slicedData, 
@@ -53,6 +53,7 @@ const ClientList = ({ data, itemsPerPage, setItemsPerPage, startFrom }) => {
     const navigate = useNavigate();
 
     useEffect(()=> {
+      console.log(selMenu)
     },[data])
 
     useEffect(() => {
@@ -93,6 +94,7 @@ const ClientList = ({ data, itemsPerPage, setItemsPerPage, startFrom }) => {
 
     const goToConsultation = (client) => {
       console.log(client)
+      setSelMenu("consultation")
       navigate("/session/", {
         state: {
           client
@@ -102,30 +104,29 @@ const ClientList = ({ data, itemsPerPage, setItemsPerPage, startFrom }) => {
 
     return(      
       <>
-        <div className="row">
-          <div className="col-md-2">
-            <h1 className={classes.title}>Clients</h1>
-          </div>
-    
-          <div className="col-md-3 mb-3">
-            <form className="mt-3 mb-3 is-flex" style={{justifyContent: 'center', verticalAlign: 'middle'}}>
-              <div className={`${classes.filterLabel}`} style={{marginLeft: '20%'}}>Search :</div>
-                <div className={`ml-2`}>
-                  <input type="text" 
-                         value={searchText}
-                         className={classes.inputText}
-                         onChange={(e) => setSearchText(e.target.value)} 
-                         name="search"
-                         id="search"/>
-                </div> 
 
-                <button onClick={e => onSearch(e, searchText)} 
-                  className={`ml-3 ${classes.pillButton}`} style={{width: '60px'}}>Go</button> 
-                <button onClick={e => { setSearchText(""); onSearch(e, "") }}
-                  className={`${classes.pillButton}`} style={{width: '60px'}}>Clear</button>               
-            </form>
-          </div>  
+        <div className='mb-3'>
+          <h1 className={classes.title} >Clients</h1>
         </div>
+
+        <div className="row mb-2">
+        <div className='col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8 col-xxl-8'>
+          <div className='d-flex justify-content-start align-items-center'>
+            <div className='mr-2'> <h4 className=''>Search :</h4> </div>
+            <div> <input type="text" className={classes.inputText} value={searchText} onChange={(e) => setSearchText(e.target.value)} name="search" id="search" placeholder="Search..." /> </div>
+            <div className='ml-3'><button className='btn btn-info mr-2' onClick={e => onSearch(e, searchText)}> Go</button>
+              <button className='btn btn-info' onClick={e => { setSearchText(""); onSearch(e, "") }} > Clear</button></div>
+          </div>
+        </div>
+        <div className='col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 col-xxl-4'>
+          <div className='d-flex justify-content-end align-items-center'>
+            <div className='ml-3'>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
 
 
       {slicedData.length > 0 ? <>
@@ -244,3 +245,33 @@ export default ClientList
                 </tr>
 
 */
+
+
+/*
+
+        <div className="row">
+          <div className="col-md-2">
+            <h1 className={classes.title}>Clients</h1>
+          </div>
+    
+          <div className="col-md-3 mb-3">
+            <form className="mt-3 mb-3 is-flex" style={{justifyContent: 'center', verticalAlign: 'middle'}}>
+              <div className={`${classes.filterLabel}`} style={{marginLeft: '20%'}}>Search :</div>
+                <div className={`ml-2`}>
+                  <input type="text" 
+                         value={searchText}
+                         className={classes.inputText}
+                         onChange={(e) => setSearchText(e.target.value)} 
+                         name="search"
+                         id="search"/>
+                </div> 
+
+                <button onClick={e => onSearch(e, searchText)} 
+                  className={`ml-3 ${classes.pillButton}`} style={{width: '60px'}}>Go</button> 
+                <button onClick={e => { setSearchText(""); onSearch(e, "") }}
+                  className={`${classes.pillButton}`} style={{width: '60px'}}>Clear</button>               
+            </form>
+          </div>  
+        </div>
+
+*/        

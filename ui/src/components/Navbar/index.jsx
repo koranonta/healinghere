@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
@@ -7,29 +7,31 @@ import { sideBarData } from './SidebarData';
 import './Navbar.css';
 import {images} from '../../util/Images';
 import _ from 'lodash';
-
+import { AppContext } from '../../context/AppContext';
 const Navbar = () => {
   const [curMenu, setCurMenu] = useState(sideBarData[0].title)
   const [open, setOpen] = useState(true)
+  const { selMenu, setSelMenu } = useContext(AppContext)
 
   return (
-    <div className="side_bar" style={open ? {width: '170px', transition: 'width 0.3s ease-in-out'} : {width: '70px', transition: 'width 0.3s ease-in-out'}}  >
+    <div className="side_bar" 
+      style={open 
+        ? {width: '170px', transition: 'width 0.3s ease-in-out'} 
+        : {width: '70px', transition: 'width 0.3s ease-in-out'}}>
 
-     <IconButton onClick={() =>setOpen(!open)}>
-       { open ? <NavigateBeforeIcon /> : <NavigateNextIcon />}
-     </IconButton>
-
+       <IconButton onClick={() =>setOpen(!open)}>
+         { open ? <NavigateBeforeIcon /> : <NavigateNextIcon />}
+       </IconButton>
       
-	    <div className="side_bar_top">
-	      <div className="profile_pic">
-		      { open && <img src={images.logo}/> }
-		    </div>
-	    </div>
+	     <div className="side_bar_top">
+	       <div className="profile_pic">{ open && <img src={images.logo}/> }</div>
+	     </div>
 	    <div className="side_bar_bottom">
 	      <ul> 
 		    {
           sideBarData.map((item, index) => {
              //console.log(item)
+            item.title === curMenu && setSelMenu(item.title)
             return (
             <li key={index} className={ 
               _.isEmpty(item.title) ? "" : item.title === curMenu && 'active'
