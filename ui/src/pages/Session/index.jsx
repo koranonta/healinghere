@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect } from 'react'
+import { useLocation, useParams } from "react-router-dom"
+import _ from 'lodash'
 import ApiService from '../../services/ApiService'
 import PageLoading from '../../components/PageLoading'
 import Constants from '../../util/Constants';
@@ -13,18 +14,22 @@ const Session = () => {
   const [selClient, setSelClient] = useState()
 
   const location = useLocation();
+  const params = useParams()
+  const paramClientId = _.isEmpty(params) ? null : params.clientid
 
   useEffect(() => {
     //console.log("Session")
-    setSelClient(location.state.client)
+    //setSelClient(location.state.client)
     const loadSessions = async () => {
       setIsLoading(true)
       try {
         setLoadingMessage("Loading sessions...")
         //  Load client list
-        const clientid = location.state.client.clientid
+        let clientid = _.isEmpty(location.state) ? -1 : location.state.client.clientid
+        if (clientid === -1 && paramClientId !== null)
+          clientid = paramClientId
         //console.log("clientid", clientid)
-
+        setSelClient(clientid)          
         const resp = await ApiService.getSessionByClientId(clientid)        
         if (resp.status === Constants.K_HTTP_OK) {
           //console.log(resp)
@@ -38,7 +43,6 @@ const Session = () => {
       }
       setIsLoading(false)
     }
-
     loadSessions()
   },[location])
 

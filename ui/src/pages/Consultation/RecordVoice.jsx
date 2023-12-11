@@ -33,7 +33,7 @@ import { VoiceRecorder } from "react-voice-recorder-player"
       controllerContainerStyle={styles.controllerContainerStyle}
       controllerStyle={styles.controllerStyle}
       downloadable={false}
-      height={90}
+      height={"90"}
       onRecordingStart={startRecording}
       onRecordingEnd={endRecording} />
   }
