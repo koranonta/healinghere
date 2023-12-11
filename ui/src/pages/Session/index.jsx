@@ -15,20 +15,19 @@ const Session = () => {
   const location = useLocation();
 
   useEffect(() => {
-    console.log("Session")
+    //console.log("Session")
     setSelClient(location.state.client)
     const loadSessions = async () => {
       setIsLoading(true)
       try {
         setLoadingMessage("Loading sessions...")
         //  Load client list
-
         const clientid = location.state.client.clientid
-        console.log("clientid", clientid)
+        //console.log("clientid", clientid)
 
         const resp = await ApiService.getSessionByClientId(clientid)        
         if (resp.status === Constants.K_HTTP_OK) {
-          console.log(resp)
+          //console.log(resp)
           setSessions(resp.data.response.data)
         }
       } catch (e) {

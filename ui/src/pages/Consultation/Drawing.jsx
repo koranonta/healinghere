@@ -1,4 +1,4 @@
-import React, { useState, forwardRef } from 'react';
+import React, { useState, forwardRef, useEffect, useReducer } from 'react';
 import CanvasDraw from "react-canvas-draw";
 import _ from 'lodash';
 import AppStyles from '../../theme/AppStyles';
@@ -31,7 +31,7 @@ const Drawing = forwardRef((props, ref) => {
     brushRadius: brushSize,
     imgSrc: props.backgroundImage,
   };
-  
+
   const classes = AppStyles()
 
   return (
@@ -55,7 +55,7 @@ const Drawing = forwardRef((props, ref) => {
              value={brushSize}
              onChange={(event) => {
                //console.log(event.target.value);
-               setBrushSize(event.target.value);
+               setBrushSize(parseInt(event.target.value));
              }} />
              </p>
           </div>
@@ -64,7 +64,10 @@ const Drawing = forwardRef((props, ref) => {
       </div >
       <div className='row mt-4'>
         <div className='col-12 d-flex justify-content-center'>
-          <CanvasDraw { ...canvasProps } ref={ref}/>
+          <CanvasDraw { ...canvasProps } 
+            ref={ref}
+            saveData={JSON.stringify(props.savedData)  }
+            />
         </div>
       </div>
     </div> 
@@ -74,18 +77,3 @@ const Drawing = forwardRef((props, ref) => {
 )
 
 export default Drawing
-
-
-/*
-          <label className={classes.toolSelection} >🎨</label>      
-<label for="colorPicker">Color:</label>
-<input type="color" id="colorPicker" value="#000000" onchange="updateColor(this.value)">
-
-            <input style={{  width: 0, height: 0 }}
-             type="color"
-             value={brushColor}
-             onChange={(event) => {
-               //console.log(event.target.value);
-               setBrushColor(event.target.value);
-           }}/>
-*/

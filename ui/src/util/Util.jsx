@@ -1,5 +1,6 @@
 import _ from "lodash"
 import moment from 'moment'
+import lzString from "lz-string";
 
 const compare = (a, b) => {
   if (!isNaN(a) && !isNaN(b)) return parseInt (+a - +b)  
@@ -71,15 +72,6 @@ const dupString = (str, num) => {
   return temp
 }
 
-const calculateDeduction = (salary, deductionDef, maximumvalue) => {  
-  if (deductionDef === null) return 0.0
-  if (deductionDef.endsWith("%")) {
-    const numStr = deductionDef.substr(0, deductionDef.length - 1)
-    let res = +salary * (parseFloat(numStr) / 100.0)
-    return (maximumvalue !== null && +res > +maximumvalue) ? +maximumvalue : +res;
-  }
-}
-
 const getJsonFieldValue = (_jsonObj, _fieldName) => {
   Object.entries(_jsonObj).forEach( 
     ([key, value]) => {
@@ -88,44 +80,6 @@ const getJsonFieldValue = (_jsonObj, _fieldName) => {
   })
   return null
 }
-
-const concatName = (item) => {
-  return item.genderthai + item.firstname + " " + item.lastname
-}
-
-const toThaiMode = (mode) => {
-  let thaiMode = ""
-  if (mode === 'add') thaiMode = 'เพิ่ม'
-  else if (mode === 'edit') thaiMode = 'แก้ไข'
-  else if (mode === 'delete') thaiMode = 'ลบ'
-  return thaiMode
-}
-
-const propertiesToThaiOptionSelector = (properties) => {
-  const res = []
-  res.push ({ id: -1, title: ""})
-  properties.forEach(item => 
-    res.push ({ id: item.propertytypeid, title: item.propertytypethainame})
-  )
-  return res;
-}
-
-const thaimonths = [
-  'มกราคม',
-  'กุมภาพันธ์',
-  'มีนาคม',
-  'เมษายน',
-  'พฤษภาคม',
-  'มิถุนายน',
-  'กรกฎาคม',
-  'สิงหาคม',
-  'กันยายน',
-  'ตุลาคม',
-  'พฤศจิกายน',
-  'ธันวาคม',
-]
-
-const toThaiYear = (year) => year < 2500 ? year + 543 : year
 
 const hasImage = (image) => {
   if (_.isEmpty(image) || image === null || image === "null") return false
@@ -136,6 +90,36 @@ const toDMY = (date) => moment(date,"YYYY-MM-DD").format("DD-MM-YYYY")
 
 const truncateText = (str, length) => 
   str.length <= length ? str : str.substr(0, length) + " . . ."
+
+/**
+ * Compress data
+ * @param {object} data - Data to compress
+ * @returns {string} compressed data as a string
+ */
+ const compressLZW = (data) => {
+  //if (typeof data === "object") {
+  //  return lzString.compressToEncodedURIComponent(JSON.stringify(data));
+  //}
+
+  return lzString.compressToEncodedURIComponent(data);
+};
+
+/**
+ * Decompress strin
+ * @param {string} compressed - Compressed string to decompress
+ * @returns {string} decompressed string
+ */
+const decompressLZW = (compressed) =>
+  lzString.decompressFromEncodedURIComponent(compressed);
+
+/**
+ * Decompress data
+ * @param {string} compressed - Compressed data to decompress
+ * @returns {object} decompressed data as an object
+ */
+const parseDecompressLZW = (compressed) =>
+  JSON.parse(decompressLZW(compressed));
+
 
 const Util = {
   sortData,
@@ -151,16 +135,13 @@ const Util = {
   tableSort,
   getComparator,
   formatNumberDecimal,
-  calculateDeduction,
   getJsonFieldValue,
-  concatName,
-  toThaiYear,
-  thaimonths,
-  toThaiMode,
-  propertiesToThaiOptionSelector,
   hasImage,
   toDMY,
   truncateText,
+  compressLZW,
+  decompressLZW,
+  parseDecompressLZW,
 }
 
 export default Util

@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link, useNavigate } from "react-router-dom";
 import * as FaIcons from 'react-icons/fa';
 import { IconButton } from '@material-ui/core';
 import _ from 'lodash';
+
 import usePagination from '../../hooks/usePagination';
 import Pagination from '../../components/Pagination';
 import Util from '../../util/Util'
-//import ApiService from '../../services/ApiService'
-//import AppConfig from '../../config/AppConfig';
 import AppStyles from '../../theme/AppStyles';
+import Popup from '../../components/Popup'
+import Consultation from '../Consultation';
+import ApiService from '../../services/ApiService'
 import { commonStyles } from '../../theme/CommonStyles';
 import { images } from '../../util/Images';
 import { AppContext } from '../../context/AppContext';
-import Popup from '../../components/Popup'
-import Consultation from '../Consultation';
+import Constants from '../../util/Constants';
 
 const columns = [
   { label: 'Session date', sortKey: 'sessiondate', align: 'left', width: '15%' },
@@ -31,11 +31,6 @@ const SessionList = ({ data, client, itemsPerPage, setItemsPerPage, startFrom })
   const [searchText, setSearchText] = useState("")
 
   const { login } = useContext(AppContext)
-
-  useEffect(() => {
-    console.log(client)
-  }, [])
-
   const {
     slicedData,
     pagination,
@@ -48,8 +43,6 @@ const SessionList = ({ data, client, itemsPerPage, setItemsPerPage, startFrom })
     filteredData } = usePagination({ itemsPerPage, data, startFrom });
 
   const classes = AppStyles()
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const copyOfFilteredData = [...filteredData];
@@ -83,48 +76,67 @@ const SessionList = ({ data, client, itemsPerPage, setItemsPerPage, startFrom })
   }
 
   const openSessionDlg = (mode, session) => {
-    if (mode === 'edit') setDlgTitle(`Edit session [ ${client.clientname} ]`)
-    else if (mode === 'add') setDlgTitle(`New session [ ${client.clientname} ]`)
-    else if (mode === 'delete') setDlgTitle(`Delete session [ ${client.clientname} ]`)
-    setSelSession(session)
-    console.log(session)
+    if (mode === 'edit') setDlgTitle(`Edit session [ ${client.clientname} - ${session.sessionid} ]`)
+    else if (mode === 'add') setDlgTitle(`New session [ ${client.clientname} - ${session.sessionid} ]`)
+    else if (mode === 'delete') setDlgTitle(`Delete session [ ${client.clientname} - ${session.sessionid} ]`)
+    setSelSession({...session, mode })
+    //console.log(session)
     setOpen(true)
   }
 
+  const sessionHandler = async (buf) => {
+    console.log(buf)
+
+    const sessionBody = {
+      'clientid': buf.clientid
+     ,'sessiondate': buf.sessiondate
+     ,'issue': buf.issue
+     ,'response': buf.response
+     ,'loginid': -1
+    }
+
+    let session
+    if (buf.mode === 'add')
+      session = await ApiService.addSession(sessionBody)
+    else if (buf.mode === 'edit')
+      session = await ApiService.updateSession(buf.sessionid, sessionBody)
+    else if (buf.mode === 'delete')
+      session = await ApiService.deleteSession(buf.sessionid, -1)    
+
+    console.log(session)      
+    //console.log(session.data.response.session[0])
+    //console.log(session.data.response.session[0].sessionid)
+
+    const targetSessionId = buf.mode === 'add' ? session.data.response.session[0].sessionid : buf.sessionid
+    let copiedData = [...filteredData ];
+    const filteredList = copiedData.filter(elem => (elem.sessionid !== targetSessionId) ? elem : null)
+    if (buf.mode !== 'delete') {
+      const updatedSession = session.data.response.session[0]
+      copiedData = [...filteredList, updatedSession]
+      const filtered = Util.sortData(copiedData, 'sessiondate', 'desc');
+      setFilteredData(filtered);
+    }
+    else setFilteredData(filteredList);
+
+    //console.log("newSessionId", targetSessionId)
+    const formData = new FormData()
+    formData.append('mode', buf.mode)
+    formData.append('clientid', buf.clientid)
+    formData.append('sessionid', targetSessionId)
+    formData.append('image', buf.image)
+    formData.append('voice', buf.voice === undefined ? "" : buf.voice)
+    formData.append('loginid', -1)
+    ApiService.processSessionArtifact(formData)
+      .then(resp => (resp.status === Constants.K_HTTP_OK) 
+             ? console.log("Session artifact successfully saved.")
+             : console.log("Fail to save session artifact.")
+        //console.log(resp.data)
+      )
+      .catch(e => console.log(e))    
+  }
 
   return (
     <>
-      {/* <div className="row">
-          <div className="col-md-2">
-            <h1 className={classes.title}>Sessions</h1>
-            <span style={{...commonStyles.tableRow, padding: 2, marginLeft: 50}}>Name :</span>
-            <span style={{...commonStyles.tableRow, border: '1px solid green', padding: 2, marginRight: 30, marginLeft: 5}}>{client.clientname}</span>
-            <span style={{...commonStyles.tableRow, padding: 2}}>Email :</span>
-            <span style={{...commonStyles.tableRow, border: '1px solid green', padding: 2, marginLeft: 5}}>{client.emailaddress}</span>
-          </div>
-
-          <form className="col-md-3 mb-3">
-            <div className="mt-3 mb-3 is-flex" style={{justifyContent: 'center', verticalAlign: 'middle'}}>
-              <div className={`${classes.filterLabel}`} style={{marginLeft: '20%'}}>Search :</div>
-                <div className={`ml-2`}>
-                  <input type="text" 
-                         value={searchText}
-                         className={classes.inputText}
-                         onChange={(e) => setSearchText(e.target.value)} 
-                         name="search"
-                         id="search"/>
-                </div> 
-                <button onClick={e => onSearch(e, searchText)} 
-                  className={`ml-3 ${classes.pillButton}`} style={{width: '60px'}}>Go</button> 
-                <button onClick={e => { setSearchText(""); onSearch(e, "") }}
-                  className={`${classes.pillButton}`} style={{width: '60px'}}>Clear</button>
-                <button onClick={e => { e.preventDefault(); openSessionDlg('add', {}) }}
-                  className={`${classes.pillButtonGreen}`} style={{marginLeft: 150, width: '60px'}}><FaIcons.FaPlusCircle title="New Session"/>
-                  {" "} New</button>
-            </div>
-          </form>  
-        </div> */}
-
       <div className='mb-3'>
         <h1 className={classes.title} >Sessions</h1>
       </div>
@@ -160,12 +172,13 @@ const SessionList = ({ data, client, itemsPerPage, setItemsPerPage, startFrom })
         </div>
         <div className='col-4'>
           <div className="mb-3 d-flex justify-content-end align-items-center">
-            <button className={`btn mr-2 ${classes.pillButtonGreen}`} onClick={e => { e.preventDefault(); openSessionDlg('add', {}) }}> <i className="fas fa-plus"></i> New</button>
+            <button className={`btn mr-2 ${classes.pillButtonGreen}`} 
+                    onClick={e => { e.preventDefault(); openSessionDlg('add', {'clientid': client.clientid, 'sessionid': -1}) }}> 
+              <i className="fas fa-plus"></i> New
+            </button>
           </div>
         </div>
       </div>
-
-
 
       {slicedData.length > 0 ? <>
         <div className="row">
@@ -239,22 +252,18 @@ const SessionList = ({ data, client, itemsPerPage, setItemsPerPage, startFrom })
         </div>
       }
 
-
       <Popup title={dlgTitle}
         open={open}
         setOpen={setOpen}
         showCloseIcon={true}
-        width={'700px'}
-      >
+        width={'700px'}>
         <Consultation
           session={selSession}
-          setOpen={setOpen} />
+          setOpen={setOpen} 
+          actionHandler={sessionHandler} />
       </Popup>
-
-
     </>
   );
 }
 
 export default SessionList
-

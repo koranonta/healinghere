@@ -3,7 +3,6 @@ import ApiService from '../../services/ApiService'
 import PageLoading from '../../components/PageLoading'
 import ClientList from './ClientList'
 import Constants from '../../util/Constants';
-import Util from '../../util/Util';
 
 const Clients = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -12,7 +11,7 @@ const Clients = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10)  
 
   useEffect(() => {
-    console.log("Clients")
+    //console.log("Clients")
     const loadClients = async () => {
       setIsLoading(true)
       try {
@@ -20,7 +19,7 @@ const Clients = () => {
         //  Load client list
         const resp = await ApiService.getClients()        
         if (resp.status === Constants.K_HTTP_OK) {
-          console.log(resp)
+          //console.log(resp)
           setClients(resp.data.response.data)
         }
       } catch (e) {

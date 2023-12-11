@@ -52,9 +52,9 @@ const ClientList = ({ data, itemsPerPage, setItemsPerPage, startFrom }) => {
 
     const navigate = useNavigate();
 
-    useEffect(()=> {
-      console.log(selMenu)
-    },[data])
+    //useEffect(()=> {
+    //  console.log(selMenu)
+    //},[data])
 
     useEffect(() => {
       const copyOfFilteredData = [...filteredData];
@@ -93,7 +93,7 @@ const ClientList = ({ data, itemsPerPage, setItemsPerPage, startFrom }) => {
     }
 
     const goToConsultation = (client) => {
-      console.log(client)
+      //console.log(client)
       setSelMenu("consultation")
       navigate("/session/", {
         state: {

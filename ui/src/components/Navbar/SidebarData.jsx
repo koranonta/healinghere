@@ -13,10 +13,12 @@ export const sideBarData = [
     icon: images.medical_white,
     activeIcon: images.medical,    
   },
+/*  
   {
     title: 'consultation',
     path: '/consultation',
     icon: images.consultation_white,
     activeIcon: images.consultation,    
   },  
+*/  
 ];

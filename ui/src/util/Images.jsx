@@ -32,7 +32,6 @@ import consultation from '../assets/images/consultation.svg'
 import consultation_white from '../assets/images/consultation_white.svg'
 
 import chakars from '../assets/images/chakras.png'
-import chakars01 from '../assets/images/chakras03.png'
 
 export const images = {
   logo,
@@ -63,5 +62,4 @@ export const images = {
   medical_white,
   consultation,
   consultation_white,
-  chakars01,
 }
