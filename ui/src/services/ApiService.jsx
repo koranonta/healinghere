@@ -4,6 +4,7 @@ const api = BaseApi.hhApi
 //  Clients
 const getClients             = ()     =>  api.get(`/clients.php`)     
 const getClientByName        = (name) =>  api.get(`/clients.php?name=${name}`) 
+const getClientById          = (clientid) => api.get(`/clients.php/${clientid}`)
 
 //  Sessions
 const getSessionByClientId   = (clientid) => api.get(`/sessionsbyclientid.php/${clientid}`)
@@ -23,6 +24,7 @@ const processSessionArtifact = (formData) => api.post("/sessionartifacts.php", f
 const ApiService = {
   getClients,
   getClientByName,
+  getClientById,
   getSessionByClientId,
   addSession,
   deleteSession,

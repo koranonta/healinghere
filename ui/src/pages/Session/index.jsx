@@ -24,15 +24,24 @@ const Session = () => {
       setIsLoading(true)
       try {
         setLoadingMessage("Loading sessions...")
-        //  Load client list
-        let clientid = _.isEmpty(location.state) ? -1 : location.state.client.clientid
-        if (clientid === -1 && paramClientId !== null)
+        let clientid = -1
+        if (!_.isEmpty(location.state)) {
+          setSelClient(location.state.client)
+          clientid = location.state.client.clientid
+        }
+        else {
           clientid = paramClientId
-        //console.log("clientid", clientid)
-        setSelClient(clientid)          
+          console.log("clientid", clientid)
+          const clResp = await ApiService.getClientById(clientid)        
+          if (clResp.status === Constants.K_HTTP_OK) {
+            //console.log(clResp.data.response.data[0])
+            setSelClient(clResp.data.response.data[0])
+          }
+        }
+
+        //  Load client list
         const resp = await ApiService.getSessionByClientId(clientid)        
         if (resp.status === Constants.K_HTTP_OK) {
-          //console.log(resp)
           setSessions(resp.data.response.data)
         }
       } catch (e) {

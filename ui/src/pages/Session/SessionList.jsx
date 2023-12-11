@@ -76,9 +76,15 @@ const SessionList = ({ data, client, itemsPerPage, setItemsPerPage, startFrom })
   }
 
   const openSessionDlg = (mode, session) => {
+/*    
     if (mode === 'edit') setDlgTitle(`Edit session [ ${client.clientname} - ${session.sessionid} ]`)
     else if (mode === 'add') setDlgTitle(`New session [ ${client.clientname} - ${session.sessionid} ]`)
     else if (mode === 'delete') setDlgTitle(`Delete session [ ${client.clientname} - ${session.sessionid} ]`)
+*/    
+   if (mode === 'edit') setDlgTitle(`Edit session [ ${client.clientname} ]`)
+   else if (mode === 'add') setDlgTitle(`New session [ ${client.clientname} ]`)
+   else if (mode === 'delete') setDlgTitle(`Delete session [ ${client.clientname} ]`)
+
     setSelSession({...session, mode })
     //console.log(session)
     setOpen(true)
