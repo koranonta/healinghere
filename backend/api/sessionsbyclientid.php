@@ -8,8 +8,8 @@ $sessions = new Sessions();
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 $pathParams = getPathParam();
 if ($requestMethod == 'GET'):
-  if (!empty($pathParams)):
-    $clientId = $pathParams[0];
+  $clientId  = empty($pathParams) ? "" : $pathParams[0];
+  if ($clientId != ""):
     $res = $sessions->getByClientId( $clientId );
     $response = array( "data" => $res );
     Response::success($response);

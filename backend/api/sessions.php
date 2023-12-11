@@ -2,10 +2,8 @@
 require_once('../classes/sessions.classes.php');
 require_once('../classes/response.classes.php');
 include_once('./apiutil.php');
-//require_once '../classes/imagehandler.classes.php';
 
 $sessions = new Sessions();
-//$imgHandler = new ImageHandler("/app/vss/backend/assets/images/avatars/");
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 $pathParams = getPathParam();
@@ -19,14 +17,11 @@ elseif ($requestMethod == 'POST'):
     $_POST = getBody();
   $session = array(
     'clientid'    => $_POST['clientid']
-   ,'sessiondate' => $_POST['sessiondate']
+   ,'sessiondate' => date('Y-m-d H:i:s' , strtotime($_POST['sessiondate']))
    ,'issue'       => $_POST['issue']
    ,'response'    => $_POST['response']
    ,'loginid'     => $_POST['loginid']
   );
-
-  //$img = $_FILES['imgInput'];
-  //$imgName = isset($img) ? $img['name'] : $_POST['image'];
 
   $res    = $sessions->add($session);
   $okMsg  = 'New session added';
@@ -37,25 +32,19 @@ elseif ($requestMethod == 'POST'):
   else:
     Response::error($errMsg);
   endif;
-
-  //  Save image
-  //if (isset($img['name']) && $img['error'] == 0):
-  //  $imgHandler->saveImage($img);
-  //endif;
-
 elseif ($requestMethod == 'PUT'):
   $id=$pathParams[0];
   if (empty($_POST))
     $_POST = getBody();
   $session = array(
-    'clientid'    => $_POST['clientid']
-   ,'sessiondate' => $_POST['sessiondate']
+    'sessionid'   => $id
+   ,'clientid'    => $_POST['clientid']
+   ,'sessiondate' => date('Y-m-d H:i:s' , strtotime($_POST['sessiondate']))
    ,'issue'       => $_POST['issue']
    ,'response'    => $_POST['response']
    ,'loginid'     => $_POST['loginid']
   );
-
-  $session['sessionid'] = $id;
+  //$session['sessionid'] = $id;
   $res    = $sessions->update($session);
   $okMsg  = 'Session id [ ' . $id . ' ] updated';
   $errMsg = 'Unable to update Session id [ ' . $id . ' ]';

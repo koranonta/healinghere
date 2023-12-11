@@ -18,6 +18,18 @@ class SessionProperties extends Db
     $query = "CALL spGetSessionProperties( ${sessionpropertyid} )";
     return $this->runQuery($query);
   }
+  
+  function getBySessionId ( $sessionid) {
+    $query = "CALL spGetSessionPropertiesBySessionId( ${sessionid} )";
+    return $this->runQuery($query);
+  }
+  
+  //function getSessionPropertyId ($sessionid, $propertytypeid) {
+  //  $query = "SELECT * FROM SessionProperties WHERE SessionId = ${sessionid} AND PropertyTypeId = ${propertytypeid}";
+  //  $res = $this->runQuery($query);
+  //  var_dump($res);
+  //  return $res;
+  //}
 
   function add( $sessionproperty )
   {
@@ -74,5 +86,16 @@ class SessionProperties extends Db
     }
     return 0;
   }
-
+  
+  function deleteByPropertyType($sessionid, $propertytypeid) {
+    try {    
+      $query = "CALL spDeleteSessionPropertyByPropertyTypeId (${sessionid} AND PropertyTypeId = ${propertytypeid})";
+      $stmt = $this->pdo->prepare($query);
+      if ($stmt->execute()) return 1;
+        return 0;
+    } catch (Exception $e) {
+      echo $e->getMessage();
+    }
+    return 0;
+  }
 }

@@ -15,14 +15,12 @@ if ($requestMethod == 'GET'):
 elseif ($requestMethod == 'POST'):
   if (empty($_POST))
     $_POST = getBody();
-
-  $blob = addslashes($_POST['propertyvalue']);
-  $sessionproperty = array(
-    'sessionid'      => $_POST['sessionid']
-   ,'propertytypeid' => $_POST['propertytypeid']
-   ,'propertyvalue'  => $blob
-   ,'loginid'        => $_POST['loginid']
-  );
+    $sessionproperty = array(
+      'sessionid'           => $_POST['sessionid']
+     ,'propertytypeid'      => $_POST['propertytypeid']
+     ,'propertyvalue'       => $_POST['propertyvalue']
+     ,'loginid'             => $_POST['loginid']
+    );
 
   $res    = $sessionproperties->add($sessionproperty);
   $okMsg  = 'New sessionproperty added';
@@ -33,15 +31,20 @@ elseif ($requestMethod == 'POST'):
   else:
     Response::error($errMsg);
   endif;
+
+  //  Save image
+  //if (isset($img['name']) && $img['error'] == 0):
+  //  $imgHandler->saveImage($img);
+  //endif;
+
 elseif ($requestMethod == 'PUT'):
   $id=$pathParams[0];
   if (empty($_POST))
     $_POST = getBody();
-  $blob = addslashes($_POST['propertyvalue']);
   $sessionproperty = array(
     'sessionid'           => $_POST['sessionid']
    ,'propertytypeid'      => $_POST['propertytypeid']
-   ,'propertyvalue'       => $blob
+   ,'propertyvalue'       => $_POST['propertyvalue']
    ,'loginid'             => $_POST['loginid']
   );
 

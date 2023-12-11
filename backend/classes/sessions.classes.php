@@ -28,9 +28,10 @@ class Sessions extends Db
   {
     try {
       $query = "CALL spAddSession( :clientid, :sessiondate, :issue, :response, :loginid, @newId )";
+      $sessionDate = date("Y-m-d H:i:s", strtotime($session['sessiondate']));
       $stmt = $this->pdo->prepare($query);
       $stmt->bindParam(':clientid', $session['clientid']);
-      $stmt->bindParam(':sessiondate', $session['sessiondate']);
+      $stmt->bindParam(':sessiondate', $sessionDate);
       $stmt->bindParam(':issue', $session['issue']);
       $stmt->bindParam(':response', $session['response']);
       $stmt->bindParam(':loginid', $session['loginid']);
